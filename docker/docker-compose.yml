@@ -28,9 +28,9 @@ services:
             - 5500:80
         build: 
             context: ../rest-api/src
-            dockerfile: Fitness-app.Backend.Api/Dockerfile
+            dockerfile: alumoo.Backend.Api/Dockerfile
         depends_on:
-            - fitness-app-database
+            - alumoo-database
 volumes:
     db:
         driver: local
