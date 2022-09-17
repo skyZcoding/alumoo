@@ -19,6 +19,7 @@ namespace alumoo.Backend.Core.Domain.Mappers
             CreateMap<TaskEntity, SuggestedTaskModel>();
 
             CreateMap<TaskEntity, FavoritTaskModel>();
+
         }
     }
 }

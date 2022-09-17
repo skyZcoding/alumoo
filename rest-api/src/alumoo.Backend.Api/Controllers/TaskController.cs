@@ -72,5 +72,11 @@ namespace alumoo.Backend.Api.Controllers
             return Ok(await _repository.GetFavoritTasks(volunteerId));
         }
 
+        [HttpGet("getApplicantsByTaskId")]
+        public async Task<ActionResult<List<ApplicantsByTaskIdModel>>> GetApplicantsByTaskId(int taskId)
+        {
+            return Ok(await _repository.GetApplicatnsByTaskId(taskId));
+        }
+
     }
 }

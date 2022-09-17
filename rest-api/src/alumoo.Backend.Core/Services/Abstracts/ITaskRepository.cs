@@ -12,6 +12,7 @@ namespace alumoo.Backend.Core.Services.Abstracts
         Task AddApplication(int volunteerId, int taskId);
         Task AddApplicationToVolunteer(int volunteerId, int taskId);
         Task AddTasksToRepository(List<TaskForProjectModel> tasks, int projectId);
+        Task<List<ApplicantsByTaskIdModel>> GetApplicatnsByTaskId(int taskId);
         Task<List<FavoritTaskModel>> GetFavoritTasks(int volunteerId);
         Task<List<TaskFromProjectModel>> GetTasksFromProject(int projectId);
         Task RemoveApplication(int volunteerId, int taskId);

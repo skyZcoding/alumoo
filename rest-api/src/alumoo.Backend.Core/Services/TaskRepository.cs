@@ -128,5 +128,30 @@ namespace alumoo.Backend.Core.Services
                 await context.SaveChangesAsync();
             }
         }
+
+        public async Task<List<ApplicantsByTaskIdModel>> GetApplicatnsByTaskId(int taskId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var task = await context.Tasks
+                    .Include(t => t.Applicants)
+                    .ThenInclude(a => a.User)
+                    .FirstOrDefaultAsync(t => t.TaskId == taskId);
+                var applicants = task.Applicants;
+                var applicantModels = new List<ApplicantsByTaskIdModel>();
+
+                foreach (var applicant in applicants)
+                {
+                    applicantModels.Add(new ApplicantsByTaskIdModel
+                    {
+                        VolunteerId = applicant.VolunteerId,
+                        FirstName = applicant.User.FirstName,
+                        LastName = applicant.User.LastName
+                    });
+                }
+
+                return applicantModels;
+            }
+        }
     }
 }

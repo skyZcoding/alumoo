@@ -1,4 +1,5 @@
 ﻿using alumoo.Backend.Core.Database;
+using alumoo.Backend.Core.Database.Entities;
 using alumoo.Backend.Core.Domain.Models.Suggestion;
 using alumoo.Backend.Core.Services.Abstracts;
 using AutoMapper;
@@ -37,19 +38,20 @@ namespace alumoo.Backend.Core.Services
                 taskIds = await response.Content.ReadAsStringAsync();
             }
 
-            var taskModels = new List<SuggestedTaskModel>();
+            var tasksId = taskIds
+                .Split(',')
+                .Where(x => int.TryParse(x, out _))
+                .Select(int.Parse)
+                .ToList();
 
             using (var context = await dbContextFactory.CreateDbContextAsync())
             {
-                foreach (var taskId in taskIds.Split(','))
-                {
-                    var taskEntity = await context.Tasks.FindAsync(int.Parse(taskId));
+                var taskEntities = await context.Tasks
+                    .Where(t => tasksId.Any(tId => tId == t.TaskId))
+                    .ToListAsync();
 
-                    taskModels.Add(mapper.Map<SuggestedTaskModel>(taskEntity));
-                }
+                return mapper.Map<List<SuggestedTaskModel>>(taskEntities);
             }
-
-            return taskModels;
         }
     }
 }
