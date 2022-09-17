@@ -17,9 +17,11 @@ namespace alumoo.Backend.Api.Controllers
         }
 
         [HttpGet("getTaskFromProject")]
-        public async Task<ActionResult<List<TaskFromProjectModel>>> GetTasksFromProject()
+        public async Task<ActionResult<List<TaskFromProjectModel>>> GetTasksFromProject(int projectId)
         {
-            throw new Exception();
+            var tasks = await _repository.GetTasksFromProject(projectId);
+
+            return Ok(tasks);
         }
 
         [HttpPost("createTasksForProject")]

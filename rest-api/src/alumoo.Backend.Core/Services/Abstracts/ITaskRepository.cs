@@ -10,5 +10,6 @@ namespace alumoo.Backend.Core.Services.Abstracts
     public interface ITaskRepository
     {
         Task AddTasksToRepository(List<TaskForProjectModel> tasks, int projectId);
+        Task<List<TaskFromProjectModel>> GetTasksFromProject(int projectId);
     }
 }
