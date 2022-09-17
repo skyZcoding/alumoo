@@ -8,7 +8,7 @@ namespace alumoo.Backend.Core.Database.Entities
 {
     public class TaskEntity
     {
-        public int Id { get; set; }
+        public int TaskId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public Enums.TaskStatus Status { get; set; }

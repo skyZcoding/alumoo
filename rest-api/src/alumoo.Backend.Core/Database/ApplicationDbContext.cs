@@ -24,7 +24,7 @@ namespace alumoo.Backend.Core.Database
         {
             // UserEntity
             modelBuilder.Entity<UserEntity>()
-                .HasKey(u => new { u.Id });
+                .HasKey(u => new { u.UserId });
 
             modelBuilder.Entity<UserEntity>()
                 .HasMany(u => u.Projects)
@@ -33,7 +33,7 @@ namespace alumoo.Backend.Core.Database
             // VolunteerEntity
 
             modelBuilder.Entity<VolunteerEntity>()
-                .HasKey(u => new { u.Id });
+                .HasKey(u => new { u.VolunteerId });
 
             modelBuilder.Entity<VolunteerEntity>()
                 .HasMany(v => v.Tasks)
@@ -50,10 +50,14 @@ namespace alumoo.Backend.Core.Database
             modelBuilder.Entity<VolunteerEntity>()
                 .HasOne(v => v.User);
 
+            modelBuilder.Entity<VolunteerEntity>()
+                .HasMany(v => v.FavoritProjects)
+                .WithMany(p => p.Followers);
+
             // TaskEntity
 
             modelBuilder.Entity<TaskEntity>()
-                .HasKey(u => new { u.Id });
+                .HasKey(u => new { u.TaskId });
 
             modelBuilder.Entity<TaskEntity>()
                 .HasMany(t => t.Applicants)
@@ -70,7 +74,7 @@ namespace alumoo.Backend.Core.Database
             // ProjectEntity
 
             modelBuilder.Entity<ProjectEntity>()
-                .HasKey(u => new { u.Id });
+                .HasKey(u => new { u.ProjectId });
 
             modelBuilder.Entity<ProjectEntity>()
                 .HasMany(p => p.Tasks)
@@ -80,10 +84,14 @@ namespace alumoo.Backend.Core.Database
                 .HasOne(p => p.Owner)
                 .WithMany(u => u.Projects);
 
+            modelBuilder.Entity<ProjectEntity>()
+                .HasMany(p => p.Followers)
+                .WithMany(v => v.FavoritProjects);
+
             // ImpressionEntity
 
             modelBuilder.Entity<ImpressionEntity>()
-                .HasKey(u => new { u.Id });
+                .HasKey(u => new { u.ImpressionId });
 
             modelBuilder.Entity<ImpressionEntity>()
                 .HasOne(i => i.Volunteer)

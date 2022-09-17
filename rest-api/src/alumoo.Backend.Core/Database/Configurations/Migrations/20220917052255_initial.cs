@@ -13,7 +13,7 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
@@ -22,28 +22,28 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    ProjectId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     ImgUrl = table.Column<string>(type: "text", nullable: false),
-                    OwnerId = table.Column<int>(type: "integer", nullable: false)
+                    OwnerUserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Projects", x => x.Id);
+                    table.PrimaryKey("PK_Projects", x => x.ProjectId);
                     table.ForeignKey(
-                        name: "FK_Projects_Users_OwnerId",
-                        column: x => x.OwnerId,
+                        name: "FK_Projects_Users_OwnerUserId",
+                        column: x => x.OwnerUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -51,7 +51,7 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 name: "Volunteers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    VolunteerId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Location = table.Column<string>(type: "text", nullable: false),
                     Skills = table.Column<string>(type: "text", nullable: false),
@@ -59,12 +59,12 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Volunteers", x => x.Id);
+                    table.PrimaryKey("PK_Volunteers", x => x.VolunteerId);
                     table.ForeignKey(
                         name: "FK_Volunteers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -72,7 +72,7 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 name: "Tasks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    TaskId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
@@ -85,12 +85,36 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.PrimaryKey("PK_Tasks", x => x.TaskId);
                     table.ForeignKey(
                         name: "FK_Tasks_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
-                        principalColumn: "Id",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectEntityVolunteerEntity",
+                columns: table => new
+                {
+                    FavoritProjectsProjectId = table.Column<int>(type: "integer", nullable: false),
+                    FollowersVolunteerId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProjectEntityVolunteerEntity", x => new { x.FavoritProjectsProjectId, x.FollowersVolunteerId });
+                    table.ForeignKey(
+                        name: "FK_ProjectEntityVolunteerEntity_Projects_FavoritProjectsProjec~",
+                        column: x => x.FavoritProjectsProjectId,
+                        principalTable: "Projects",
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProjectEntityVolunteerEntity_Volunteers_FollowersVolunteerId",
+                        column: x => x.FollowersVolunteerId,
+                        principalTable: "Volunteers",
+                        principalColumn: "VolunteerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -98,7 +122,7 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 name: "Impressions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    ImpressionId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Content = table.Column<string>(type: "text", nullable: false),
                     ImgUrl = table.Column<string>(type: "text", nullable: false),
@@ -107,18 +131,18 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Impressions", x => x.Id);
+                    table.PrimaryKey("PK_Impressions", x => x.ImpressionId);
                     table.ForeignKey(
                         name: "FK_Impressions_Tasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "Tasks",
-                        principalColumn: "Id",
+                        principalColumn: "TaskId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Impressions_Volunteers_VolunteerId",
                         column: x => x.VolunteerId,
                         principalTable: "Volunteers",
-                        principalColumn: "Id",
+                        principalColumn: "VolunteerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -126,23 +150,23 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 name: "TaskEntityVolunteerEntity",
                 columns: table => new
                 {
-                    TasksId = table.Column<int>(type: "integer", nullable: false),
-                    VolunteersId = table.Column<int>(type: "integer", nullable: false)
+                    TasksTaskId = table.Column<int>(type: "integer", nullable: false),
+                    VolunteersVolunteerId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskEntityVolunteerEntity", x => new { x.TasksId, x.VolunteersId });
+                    table.PrimaryKey("PK_TaskEntityVolunteerEntity", x => new { x.TasksTaskId, x.VolunteersVolunteerId });
                     table.ForeignKey(
-                        name: "FK_TaskEntityVolunteerEntity_Tasks_TasksId",
-                        column: x => x.TasksId,
+                        name: "FK_TaskEntityVolunteerEntity_Tasks_TasksTaskId",
+                        column: x => x.TasksTaskId,
                         principalTable: "Tasks",
-                        principalColumn: "Id",
+                        principalColumn: "TaskId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TaskEntityVolunteerEntity_Volunteers_VolunteersId",
-                        column: x => x.VolunteersId,
+                        name: "FK_TaskEntityVolunteerEntity_Volunteers_VolunteersVolunteerId",
+                        column: x => x.VolunteersVolunteerId,
                         principalTable: "Volunteers",
-                        principalColumn: "Id",
+                        principalColumn: "VolunteerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -150,23 +174,23 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 name: "TaskEntityVolunteerEntity1",
                 columns: table => new
                 {
-                    ApplicantsId = table.Column<int>(type: "integer", nullable: false),
-                    ApplicationsId = table.Column<int>(type: "integer", nullable: false)
+                    ApplicantsVolunteerId = table.Column<int>(type: "integer", nullable: false),
+                    ApplicationsTaskId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskEntityVolunteerEntity1", x => new { x.ApplicantsId, x.ApplicationsId });
+                    table.PrimaryKey("PK_TaskEntityVolunteerEntity1", x => new { x.ApplicantsVolunteerId, x.ApplicationsTaskId });
                     table.ForeignKey(
-                        name: "FK_TaskEntityVolunteerEntity1_Tasks_ApplicationsId",
-                        column: x => x.ApplicationsId,
+                        name: "FK_TaskEntityVolunteerEntity1_Tasks_ApplicationsTaskId",
+                        column: x => x.ApplicationsTaskId,
                         principalTable: "Tasks",
-                        principalColumn: "Id",
+                        principalColumn: "TaskId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TaskEntityVolunteerEntity1_Volunteers_ApplicantsId",
-                        column: x => x.ApplicantsId,
+                        name: "FK_TaskEntityVolunteerEntity1_Volunteers_ApplicantsVolunteerId",
+                        column: x => x.ApplicantsVolunteerId,
                         principalTable: "Volunteers",
-                        principalColumn: "Id",
+                        principalColumn: "VolunteerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -181,19 +205,24 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 column: "VolunteerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_OwnerId",
+                name: "IX_ProjectEntityVolunteerEntity_FollowersVolunteerId",
+                table: "ProjectEntityVolunteerEntity",
+                column: "FollowersVolunteerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_OwnerUserId",
                 table: "Projects",
-                column: "OwnerId");
+                column: "OwnerUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskEntityVolunteerEntity_VolunteersId",
+                name: "IX_TaskEntityVolunteerEntity_VolunteersVolunteerId",
                 table: "TaskEntityVolunteerEntity",
-                column: "VolunteersId");
+                column: "VolunteersVolunteerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskEntityVolunteerEntity1_ApplicationsId",
+                name: "IX_TaskEntityVolunteerEntity1_ApplicationsTaskId",
                 table: "TaskEntityVolunteerEntity1",
-                column: "ApplicationsId");
+                column: "ApplicationsTaskId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ProjectId",
@@ -210,6 +239,9 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Impressions");
+
+            migrationBuilder.DropTable(
+                name: "ProjectEntityVolunteerEntity");
 
             migrationBuilder.DropTable(
                 name: "TaskEntityVolunteerEntity");

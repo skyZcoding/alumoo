@@ -11,7 +11,7 @@ using alumoo.Backend.Core.Database;
 namespace alumoo.Backend.Core.Database.Configurations.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220917012115_initial")]
+    [Migration("20220917052255_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,11 +25,11 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
 
             modelBuilder.Entity("alumoo.Backend.Core.Database.Entities.ImpressionEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ImpressionId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ImpressionId"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -45,7 +45,7 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                     b.Property<int>("VolunteerId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("ImpressionId");
 
                     b.HasIndex("TaskId");
 
@@ -56,11 +56,11 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
 
             modelBuilder.Entity("alumoo.Backend.Core.Database.Entities.ProjectEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ProjectId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProjectId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -70,27 +70,27 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("OwnerId")
+                    b.Property<int>("OwnerUserId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProjectId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("OwnerUserId");
 
                     b.ToTable("Projects");
                 });
 
             modelBuilder.Entity("alumoo.Backend.Core.Database.Entities.TaskEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TaskId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TaskId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -120,7 +120,7 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("TaskId");
 
                     b.HasIndex("ProjectId");
 
@@ -129,11 +129,11 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
 
             modelBuilder.Entity("alumoo.Backend.Core.Database.Entities.UserEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -151,18 +151,18 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("alumoo.Backend.Core.Database.Entities.VolunteerEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("VolunteerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("VolunteerId"));
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -175,39 +175,54 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("VolunteerId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Volunteers");
                 });
 
+            modelBuilder.Entity("ProjectEntityVolunteerEntity", b =>
+                {
+                    b.Property<int>("FavoritProjectsProjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FollowersVolunteerId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FavoritProjectsProjectId", "FollowersVolunteerId");
+
+                    b.HasIndex("FollowersVolunteerId");
+
+                    b.ToTable("ProjectEntityVolunteerEntity");
+                });
+
             modelBuilder.Entity("TaskEntityVolunteerEntity", b =>
                 {
-                    b.Property<int>("TasksId")
+                    b.Property<int>("TasksTaskId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("VolunteersId")
+                    b.Property<int>("VolunteersVolunteerId")
                         .HasColumnType("integer");
 
-                    b.HasKey("TasksId", "VolunteersId");
+                    b.HasKey("TasksTaskId", "VolunteersVolunteerId");
 
-                    b.HasIndex("VolunteersId");
+                    b.HasIndex("VolunteersVolunteerId");
 
                     b.ToTable("TaskEntityVolunteerEntity");
                 });
 
             modelBuilder.Entity("TaskEntityVolunteerEntity1", b =>
                 {
-                    b.Property<int>("ApplicantsId")
+                    b.Property<int>("ApplicantsVolunteerId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ApplicationsId")
+                    b.Property<int>("ApplicationsTaskId")
                         .HasColumnType("integer");
 
-                    b.HasKey("ApplicantsId", "ApplicationsId");
+                    b.HasKey("ApplicantsVolunteerId", "ApplicationsTaskId");
 
-                    b.HasIndex("ApplicationsId");
+                    b.HasIndex("ApplicationsTaskId");
 
                     b.ToTable("TaskEntityVolunteerEntity1");
                 });
@@ -235,7 +250,7 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 {
                     b.HasOne("alumoo.Backend.Core.Database.Entities.UserEntity", "Owner")
                         .WithMany("Projects")
-                        .HasForeignKey("OwnerId")
+                        .HasForeignKey("OwnerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -264,17 +279,32 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TaskEntityVolunteerEntity", b =>
+            modelBuilder.Entity("ProjectEntityVolunteerEntity", b =>
                 {
-                    b.HasOne("alumoo.Backend.Core.Database.Entities.TaskEntity", null)
+                    b.HasOne("alumoo.Backend.Core.Database.Entities.ProjectEntity", null)
                         .WithMany()
-                        .HasForeignKey("TasksId")
+                        .HasForeignKey("FavoritProjectsProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("alumoo.Backend.Core.Database.Entities.VolunteerEntity", null)
                         .WithMany()
-                        .HasForeignKey("VolunteersId")
+                        .HasForeignKey("FollowersVolunteerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TaskEntityVolunteerEntity", b =>
+                {
+                    b.HasOne("alumoo.Backend.Core.Database.Entities.TaskEntity", null)
+                        .WithMany()
+                        .HasForeignKey("TasksTaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("alumoo.Backend.Core.Database.Entities.VolunteerEntity", null)
+                        .WithMany()
+                        .HasForeignKey("VolunteersVolunteerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -283,13 +313,13 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 {
                     b.HasOne("alumoo.Backend.Core.Database.Entities.VolunteerEntity", null)
                         .WithMany()
-                        .HasForeignKey("ApplicantsId")
+                        .HasForeignKey("ApplicantsVolunteerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("alumoo.Backend.Core.Database.Entities.TaskEntity", null)
                         .WithMany()
-                        .HasForeignKey("ApplicationsId")
+                        .HasForeignKey("ApplicationsTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

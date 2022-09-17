@@ -8,7 +8,10 @@
 
   <ItemGroup>
     <Folder Include="Database\Configurations\" />
-    <Folder Include="Domain\" />
+    <Folder Include="Domain\Models\User\" />
+    <Folder Include="Domain\Models\Suggestion\" />
+    <Folder Include="Domain\Models\Project\" />
+    <Folder Include="Domain\Models\Task\" />
   </ItemGroup>
 
   <ItemGroup>
