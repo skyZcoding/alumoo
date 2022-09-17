@@ -23,5 +23,13 @@ namespace alumoo.Backend.Api.Controllers
 
             return Ok(userId);
         }
+
+        [HttpPost("addUserToVolunteers")]
+        public async Task<ActionResult<int>> AddUserToVolunteers(UserToVolunteerModel volunteer)
+        {
+            var volunteerId = await _repository.AddUserToVolunteers(volunteer);
+
+            return Ok(volunteerId);
+        }
     }
 }

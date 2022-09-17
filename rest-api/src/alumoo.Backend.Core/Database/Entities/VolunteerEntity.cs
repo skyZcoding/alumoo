@@ -8,6 +8,15 @@ namespace alumoo.Backend.Core.Database.Entities
 {
     public class VolunteerEntity
     {
+        public VolunteerEntity()
+        {
+            Skills = string.Empty;
+            Impressions = new List<ImpressionEntity>();
+            Tasks = new List<TaskEntity>();
+            Applications = new List<TaskEntity>();
+            FavoritProjects = new List<ProjectEntity>();
+        }
+
         public int VolunteerId { get; set; }
         public string Location { get; set; }
         public string Skills { get; set; }
