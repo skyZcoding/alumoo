@@ -33,8 +33,11 @@ services:
             - alumoo-database
     alumoo-ml:
         restart: always
+        command: sh -c 'python fill_db.py'
         ports:
             - 5501:5000
+        depends_on:
+            - "alumoo-database"
         build:
             context: ../suggestion-api
             dockerfile: Dockerfile

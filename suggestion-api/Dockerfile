@@ -5,7 +5,11 @@ WORKDIR /usr/src/app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY /main.py .
+WORKDIR ./suggestion-api
+COPY fill_db.py .
+COPY /schemafiller/ ./schemafiller/
 COPY /db_model.py .
 
-CMD ["flask", "--app", "main", "run", "--host=0.0.0.0"]
+COPY /main.py .
+
+CMD ["python", "main.py"]
