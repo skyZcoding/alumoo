@@ -23,6 +23,34 @@ namespace alumoo.Backend.Core.Services
             _mapper = mapper;
         }
 
+        public async Task AddApplication(int volunteerId, int taskId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var volunteer = await context.Volunteers.FindAsync(volunteerId);
+                var task = await context.Tasks.FindAsync(taskId);
+
+                task.Applicants.Add(volunteer);
+
+                context.Update(task);
+                await context.SaveChangesAsync();
+            };
+        }
+
+        public async Task AddApplicationToVolunteer(int volunteerId, int taskId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var volunteer = await context.Volunteers.FindAsync(volunteerId);
+                var task = await context.Tasks.FindAsync(taskId);
+
+                task.Volunteers.Add(volunteer);
+
+                context.Update(task);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task AddTasksToRepository(List<TaskForProjectModel> tasks, int projectId)
         {
             using (var context = await _dbContextFactory.CreateDbContextAsync())
@@ -58,6 +86,20 @@ namespace alumoo.Backend.Core.Services
                     .ToListAsync();
 
                 return _mapper.Map<List<TaskFromProjectModel>>(entites);
+            }
+        }
+
+        public async Task RemoveApplication(int volunteerId, int taskId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var volunteer = await context.Volunteers.FindAsync(volunteerId);
+                var task = await context.Tasks.FindAsync(taskId);
+
+                task.Applicants.Remove(volunteer);
+
+                context.Update(task);
+                await context.SaveChangesAsync();
             }
         }
     }

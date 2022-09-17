@@ -31,5 +31,30 @@ namespace alumoo.Backend.Api.Controllers
 
             return Ok();
         }
+
+        [HttpPost("addApplication")]
+        public async Task<ActionResult> AddApplication(int volunteerId, int taskId)
+        {
+            await _repository.AddApplication(volunteerId, taskId);
+
+            return Ok();
+        }
+
+        [HttpDelete("denyApplication")]
+        public async Task<ActionResult> DenyApplicaiton(int volunteerId, int taskId)
+        {
+            await _repository.RemoveApplication(volunteerId, taskId);
+
+            return Ok();
+        }
+
+        [HttpPost("acceptApplication")]
+        public async Task<ActionResult> AcceptApplication(int volunteerId, int taskId)
+        {
+            await _repository.AddApplicationToVolunteer(volunteerId, taskId);
+            await _repository.RemoveApplication(volunteerId, taskId);
+
+            return Ok();
+        }
     }
 }
