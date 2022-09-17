@@ -21,5 +21,13 @@ namespace alumoo.Backend.Api.Controllers
         {
             return await _repository.GetFavoritProjects(volunteerId);
         }
+
+        [HttpPost("createProject")]
+        public async Task<ActionResult> CreateProject(CreateProjectModel project)
+        {
+            await _repository.CreateProject(project);
+
+            return Ok();
+        }
     }
 }

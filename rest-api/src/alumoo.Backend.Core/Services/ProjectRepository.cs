@@ -1,4 +1,5 @@
 ﻿using alumoo.Backend.Core.Database;
+using alumoo.Backend.Core.Database.Entities;
 using alumoo.Backend.Core.Domain.Models.Project;
 using alumoo.Backend.Core.Services.Abstracts;
 using AutoMapper;
@@ -20,6 +21,21 @@ namespace alumoo.Backend.Core.Services
         {
             _dbContextFactory = dbContextFactory;
             _mapper = mapper;
+        }
+
+        public async Task CreateProject(CreateProjectModel project)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+               var user = await context.Users.FindAsync(project.UserId);
+
+                var projectEntity = new ProjectEntity
+                {
+                    Title = project.Title,
+                    Description = project.Description,
+                    Owner = user
+                };
+            }
         }
 
         public async Task<List<FavoritProjectModel>> GetFavoritProjects(int volunteerId)
