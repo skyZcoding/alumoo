@@ -54,6 +54,10 @@ namespace alumoo.Backend.Core.Database
                 .HasMany(v => v.FavoritProjects)
                 .WithMany(p => p.Followers);
 
+            modelBuilder.Entity<VolunteerEntity>()
+                .HasMany(v => v.FavoritTasks)
+                .WithMany(t => t.Followers);
+
             // TaskEntity
 
             modelBuilder.Entity<TaskEntity>()
@@ -70,6 +74,10 @@ namespace alumoo.Backend.Core.Database
             modelBuilder.Entity<TaskEntity>()
                 .HasOne(t => t.Project)
                 .WithMany(p => p.Tasks);
+
+            modelBuilder.Entity<TaskEntity>()
+                .HasMany(t => t.Followers)
+                .WithMany(v => v.FavoritTasks);
 
             // ProjectEntity
 

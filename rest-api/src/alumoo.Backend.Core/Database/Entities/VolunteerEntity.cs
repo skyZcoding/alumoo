@@ -15,6 +15,7 @@ namespace alumoo.Backend.Core.Database.Entities
             Tasks = new List<TaskEntity>();
             Applications = new List<TaskEntity>();
             FavoritProjects = new List<ProjectEntity>();
+            FavoritTasks = new List<TaskEntity>(); 
         }
 
         public int VolunteerId { get; set; }
@@ -25,5 +26,6 @@ namespace alumoo.Backend.Core.Database.Entities
         public List<TaskEntity> Tasks { get; set; }
         public List<TaskEntity> Applications { get; set; }
         public List<ProjectEntity> FavoritProjects { get; set; }
+        public List<TaskEntity> FavoritTasks { get; set; }
     }
 }

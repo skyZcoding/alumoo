@@ -225,6 +225,21 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                     b.ToTable("TaskEntityVolunteerEntity1");
                 });
 
+            modelBuilder.Entity("TaskEntityVolunteerEntity2", b =>
+                {
+                    b.Property<int>("FavoritTasksTaskId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FollowersVolunteerId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FavoritTasksTaskId", "FollowersVolunteerId");
+
+                    b.HasIndex("FollowersVolunteerId");
+
+                    b.ToTable("TaskEntityVolunteerEntity2");
+                });
+
             modelBuilder.Entity("alumoo.Backend.Core.Database.Entities.ImpressionEntity", b =>
                 {
                     b.HasOne("alumoo.Backend.Core.Database.Entities.TaskEntity", "Task")
@@ -318,6 +333,21 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                     b.HasOne("alumoo.Backend.Core.Database.Entities.TaskEntity", null)
                         .WithMany()
                         .HasForeignKey("ApplicationsTaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TaskEntityVolunteerEntity2", b =>
+                {
+                    b.HasOne("alumoo.Backend.Core.Database.Entities.TaskEntity", null)
+                        .WithMany()
+                        .HasForeignKey("FavoritTasksTaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("alumoo.Backend.Core.Database.Entities.VolunteerEntity", null)
+                        .WithMany()
+                        .HasForeignKey("FollowersVolunteerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

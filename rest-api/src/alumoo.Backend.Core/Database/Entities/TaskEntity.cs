@@ -13,6 +13,7 @@ namespace alumoo.Backend.Core.Database.Entities
             Volunteers = new List<VolunteerEntity>();
             Applicants = new List<VolunteerEntity>();
             Impressions = new List<ImpressionEntity>();
+            Followers = new List<VolunteerEntity>();
         }
 
         public int TaskId { get; set; }
@@ -27,5 +28,6 @@ namespace alumoo.Backend.Core.Database.Entities
         public List<VolunteerEntity> Volunteers { get; set; }
         public List<VolunteerEntity> Applicants { get; set; }
         public List<ImpressionEntity> Impressions { get; set; }
+        public List<VolunteerEntity> Followers { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using alumoo.Backend.Core.Domain.Models.Task;
+﻿using alumoo.Backend.Core.Domain.Models.Project;
+using alumoo.Backend.Core.Domain.Models.Task;
 using alumoo.Backend.Core.Services.Abstracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,12 @@ namespace alumoo.Backend.Api.Controllers
             await _repository.RemoveApplication(volunteerId, taskId);
 
             return Ok();
+        }
+
+        [HttpGet("getFavoritTasks")]
+        public async Task<ActionResult<List<FavoritTaskModel>>> GetFavoritTasks(int volunteerId)
+        {
+            return Ok(await _repository.GetFavoritTasks(volunteerId));
         }
     }
 }

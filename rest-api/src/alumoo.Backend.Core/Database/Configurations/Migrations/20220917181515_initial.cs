@@ -194,6 +194,30 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TaskEntityVolunteerEntity2",
+                columns: table => new
+                {
+                    FavoritTasksTaskId = table.Column<int>(type: "integer", nullable: false),
+                    FollowersVolunteerId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskEntityVolunteerEntity2", x => new { x.FavoritTasksTaskId, x.FollowersVolunteerId });
+                    table.ForeignKey(
+                        name: "FK_TaskEntityVolunteerEntity2_Tasks_FavoritTasksTaskId",
+                        column: x => x.FavoritTasksTaskId,
+                        principalTable: "Tasks",
+                        principalColumn: "TaskId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TaskEntityVolunteerEntity2_Volunteers_FollowersVolunteerId",
+                        column: x => x.FollowersVolunteerId,
+                        principalTable: "Volunteers",
+                        principalColumn: "VolunteerId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Impressions_TaskId",
                 table: "Impressions",
@@ -225,6 +249,11 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
                 column: "ApplicationsTaskId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TaskEntityVolunteerEntity2_FollowersVolunteerId",
+                table: "TaskEntityVolunteerEntity2",
+                column: "FollowersVolunteerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_ProjectId",
                 table: "Tasks",
                 column: "ProjectId");
@@ -248,6 +277,9 @@ namespace alumoo.Backend.Core.Database.Configurations.Migrations
 
             migrationBuilder.DropTable(
                 name: "TaskEntityVolunteerEntity1");
+
+            migrationBuilder.DropTable(
+                name: "TaskEntityVolunteerEntity2");
 
             migrationBuilder.DropTable(
                 name: "Tasks");
