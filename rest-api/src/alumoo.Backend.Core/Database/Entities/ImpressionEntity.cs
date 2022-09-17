@@ -8,6 +8,11 @@ namespace alumoo.Backend.Core.Database.Entities
 {
     public class ImpressionEntity
     {
+        public ImpressionEntity()
+        {
+            ImgUrl = string.Empty;
+        }
+
         public int ImpressionId { get; set; }
         public string Content { get; set; }
         public string ImgUrl { get; set; }

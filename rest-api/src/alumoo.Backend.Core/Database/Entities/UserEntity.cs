@@ -8,6 +8,12 @@ namespace alumoo.Backend.Core.Database.Entities
 {
     public class UserEntity
     {
+        public UserEntity()
+        {
+            ImgUrl = string.Empty;
+            Projects = new List<ProjectEntity>();
+        }
+
         public int UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

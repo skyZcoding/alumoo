@@ -4,6 +4,10 @@ using alumoo.Backend.Core.Services.Abstracts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+var assemblyNamespace = "alumoo.Backend";
+var modules = assemblies.Where(x => x.ManifestModule.Name.StartsWith(assemblyNamespace)).ToArray();
 
 // Add services to the container.
 builder.Services.AddEntityFrameworkNpgsql().AddDbContextFactory<ApplicationDbContext>(options =>
@@ -20,6 +24,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(modules);
 
 var app = builder.Build();
 
