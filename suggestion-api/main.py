@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 pagesize = 15
 
-psdb = pw.PostgresqlDatabase('alumoo', **{'user': 'postgres', 'password': 'postgres'})
+psdb = pw.PostgresqlDatabase(host='34.65.191.37', port='5432', database='alumoo', user='postgres', password='postgres')
 task_clusters = {}
 volunteer_clusters = {}
 

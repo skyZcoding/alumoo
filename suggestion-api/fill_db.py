@@ -12,20 +12,20 @@ objects = []
 locations = []
 impression_content = ['good', 'great', 'terrible', 'amazing', 'wonderful', 'lovely', 'delightful', 'generous', 'uncomfortable']
 
-with open('schemafiller/firstnames') as f:
+with open('suggestion-api/schemafiller/firstnames') as f:
     firstnames = [x.strip() for x in f.readlines()]
-with open('schemafiller/lastnames') as f:
+with open('suggestion-api/schemafiller/lastnames') as f:
     lastnames = [x.strip() for x in f.readlines()]
-with open('schemafiller/emails') as f:
+with open('suggestion-api/schemafiller/emails') as f:
     emails = [x.strip() for x in f.readlines()]
-with open('schemafiller/verbs') as f:
+with open('suggestion-api/schemafiller/verbs') as f:
     verbs = [x.strip() for x in f.readlines()]
-with open('schemafiller/objects') as f:
+with open('suggestion-api/schemafiller/objects') as f:
     objects = [x.strip() for x in f.readlines()]
-with open('schemafiller/locations') as f:
+with open('suggestion-api/schemafiller/locations') as f:
     locations = [x.strip() + ", Switzerland" for x in f.readlines()]
 
-psdb = pw.PostgresqlDatabase(host='alumoo-database', port='5432', database='alumoo', user='postgres', password='postgres')
+psdb = pw.PostgresqlDatabase(host='34.65.191.37', port='5432', database='alumoo', user='postgres', password='postgres')
 numtasks = 10000
 numusers = 1000
 numprojects = 100
