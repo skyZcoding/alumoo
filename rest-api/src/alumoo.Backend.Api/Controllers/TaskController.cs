@@ -58,6 +58,14 @@ namespace alumoo.Backend.Api.Controllers
             return Ok();
         }
 
+        [HttpPost("starTask")]
+        public async Task<ActionResult> StarTask(int volunteerId, int taskId)
+        {
+            await _repository.StartTask(volunteerId, taskId);
+
+            return Ok();
+        }
+
         [HttpGet("getFavoritTasks")]
         public async Task<ActionResult<List<FavoritTaskModel>>> GetFavoritTasks(int volunteerId)
         {

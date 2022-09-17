@@ -115,5 +115,18 @@ namespace alumoo.Backend.Core.Services
                 return _mapper.Map<List<FavoritTaskModel>>(entities);
             }
         }
+
+        public async Task StartTask(int volunteerId, int taskId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var volunteer = await context.Volunteers.FindAsync(volunteerId);
+                var task = await context.Tasks.FindAsync(taskId);
+
+                task.Followers.Add(volunteer);
+                context.Tasks.Update(task);
+                await context.SaveChangesAsync();
+            }
+        }
     }
 }
