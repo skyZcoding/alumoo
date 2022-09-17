@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace alumoo.Backend.Core.Services.Abstracts
 {
-    public interface IDataRepository
+    public interface IProjectRepository
     {
     }
 }
