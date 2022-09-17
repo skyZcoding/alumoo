@@ -27,7 +27,7 @@ namespace alumoo.Backend.Core.Services
         {
             using (var context = await _dbContextFactory.CreateDbContextAsync())
             {
-               var user = await context.Users.FindAsync(project.UserId);
+                var user = await context.Users.FindAsync(project.UserId);
 
                 var projectEntity = new ProjectEntity
                 {
@@ -35,6 +35,9 @@ namespace alumoo.Backend.Core.Services
                     Description = project.Description,
                     Owner = user
                 };
+
+                await context.Projects.AddAsync(projectEntity);
+                await context.SaveChangesAsync();
             }
         }
 

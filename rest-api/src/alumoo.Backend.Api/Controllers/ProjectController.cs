@@ -19,7 +19,7 @@ namespace alumoo.Backend.Api.Controllers
         [HttpGet("getFavoritProjects")]
         public async Task<ActionResult<List<FavoritProjectModel>>> GetFavoritProjects(int volunteerId)
         {
-            return await _repository.GetFavoritProjects(volunteerId);
+            return Ok(await _repository.GetFavoritProjects(volunteerId));
         }
 
         [HttpPost("createProject")]

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using alumoo.Backend.Core.Domain.Models.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,6 @@ namespace alumoo.Backend.Core.Services.Abstracts
 {
     public interface IUserRepository
     {
+        Task<int> CreateUser(CreateUserModel user);
     }
 }

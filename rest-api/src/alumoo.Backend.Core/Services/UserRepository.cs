@@ -1,5 +1,8 @@
 ﻿using alumoo.Backend.Core.Database;
+using alumoo.Backend.Core.Database.Entities;
+using alumoo.Backend.Core.Domain.Models.User;
 using alumoo.Backend.Core.Services.Abstracts;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +15,30 @@ namespace alumoo.Backend.Core.Services
     public class UserRepository : IUserRepository
     {
         private readonly IDbContextFactory<ApplicationDbContext> _dbContextFactory;
+        private readonly IMapper _mapper;
 
-        public UserRepository(IDbContextFactory<ApplicationDbContext> dbContextFactory)
+        public UserRepository(IDbContextFactory<ApplicationDbContext> dbContextFactory, IMapper mapper)
         {
             _dbContextFactory = dbContextFactory;
+            _mapper = mapper;
+        }
+
+        public async Task<int> CreateUser(CreateUserModel user)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var userEntity = new UserEntity
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                };
+
+                await context.Users.AddAsync(userEntity);
+                await context.SaveChangesAsync();
+
+                return context.Users.FirstOrDefault(u => u.Email == user.Email).UserId;
+            }
         }
     }
 }
