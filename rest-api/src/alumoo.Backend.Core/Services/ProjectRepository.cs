@@ -23,7 +23,7 @@ namespace alumoo.Backend.Core.Services
             _mapper = mapper;
         }
 
-        public async Task CreateProject(CreateProjectModel project)
+        public async Task<int> CreateProject(CreateProjectModel project)
         {
             using (var context = await _dbContextFactory.CreateDbContextAsync())
             {
@@ -38,6 +38,10 @@ namespace alumoo.Backend.Core.Services
 
                 await context.Projects.AddAsync(projectEntity);
                 await context.SaveChangesAsync();
+
+                return context.Projects
+                    .FirstOrDefault(p => p.Title == project.Title &&
+                    p.Description == project.Description).ProjectId;
             }
         }
 

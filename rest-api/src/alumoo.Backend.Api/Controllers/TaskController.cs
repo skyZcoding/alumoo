@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using alumoo.Backend.Core.Domain.Models.Task;
+using alumoo.Backend.Core.Services.Abstracts;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace alumoo.Backend.Api.Controllers
@@ -7,5 +9,25 @@ namespace alumoo.Backend.Api.Controllers
     [ApiController]
     public class TaskController : ControllerBase
     {
+        private readonly ITaskRepository _repository;
+
+        public TaskController(ITaskRepository repository)
+        {
+            _repository = repository;
+        }
+
+        [HttpGet("getTaskFromProject")]
+        public async Task<ActionResult<List<TaskFromProjectModel>>> GetTasksFromProject()
+        {
+            throw new Exception();
+        }
+
+        [HttpPost("createTasksForProject")]
+        public async Task<ActionResult> CreateTasksForProjects(List<TaskForProjectModel> tasks, int projectId)
+        {
+            await _repository.AddTasksToRepository(tasks, projectId);
+
+            return Ok();
+        }
     }
 }

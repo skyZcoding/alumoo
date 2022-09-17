@@ -9,7 +9,7 @@ namespace alumoo.Backend.Core.Services.Abstracts
 {
     public interface IProjectRepository
     {
-        Task CreateProject(CreateProjectModel project);
+        Task<int> CreateProject(CreateProjectModel project);
         Task<List<FavoritProjectModel>> GetFavoritProjects(int volunteerId);
     }
 }
