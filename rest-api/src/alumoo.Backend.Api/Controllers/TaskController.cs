@@ -1,4 +1,5 @@
-﻿using alumoo.Backend.Core.Domain.Models.Project;
+﻿using alumoo.Backend.Core.Database.Entities;
+using alumoo.Backend.Core.Domain.Models.Project;
 using alumoo.Backend.Core.Domain.Models.Task;
 using alumoo.Backend.Core.Services.Abstracts;
 using Microsoft.AspNetCore.Http;
@@ -58,10 +59,10 @@ namespace alumoo.Backend.Api.Controllers
             return Ok();
         }
 
-        [HttpPost("starTask")]
-        public async Task<ActionResult> StarTask(int volunteerId, int taskId)
+        [HttpPost("toggleStarTask")]
+        public async Task<ActionResult> ToggleStarTask(int volunteerId, int taskId)
         {
-            await _repository.StartTask(volunteerId, taskId);
+            await _repository.ToggleStarTask(volunteerId, taskId);
 
             return Ok();
         }
@@ -76,6 +77,12 @@ namespace alumoo.Backend.Api.Controllers
         public async Task<ActionResult<List<ApplicantsByTaskIdModel>>> GetApplicantsByTaskId(int taskId)
         {
             return Ok(await _repository.GetApplicatnsByTaskId(taskId));
+        }
+
+        [HttpGet("getDetailedTaskById")]
+        public async Task<ActionResult<DetailedTaskByIdModel>> GetDetailedTaskById(int taskId)
+        {
+            return Ok(await _repository.GetDetailedTaskById(taskId));
         }
 
     }

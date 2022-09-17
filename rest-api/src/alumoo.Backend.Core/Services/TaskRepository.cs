@@ -116,14 +116,30 @@ namespace alumoo.Backend.Core.Services
             }
         }
 
-        public async Task StartTask(int volunteerId, int taskId)
+        public async Task ToggleStarTask(int volunteerId, int taskId)
         {
             using (var context = await _dbContextFactory.CreateDbContextAsync())
             {
                 var volunteer = await context.Volunteers.FindAsync(volunteerId);
-                var task = await context.Tasks.FindAsync(taskId);
+                var task = await context.Tasks
+                    .Include(t => t.Followers)
+                    .FirstOrDefaultAsync(t => t.TaskId == taskId);
+                
+                if (task.Followers != null &&
+                    task.Followers.Any(f => f.VolunteerId == volunteerId))
+                {
+                    task.Followers.Remove(volunteer);
+                }
+                else if (task.Followers == null)
+                {
+                    task.Followers = new List<VolunteerEntity>();
+                    task.Followers.Add(volunteer);
+                }
+                else
+                {
+                    task.Followers.Add(volunteer);
+                }
 
-                task.Followers.Add(volunteer);
                 context.Tasks.Update(task);
                 await context.SaveChangesAsync();
             }
@@ -151,6 +167,29 @@ namespace alumoo.Backend.Core.Services
                 }
 
                 return applicantModels;
+            }
+        }
+
+        public async Task<DetailedTaskByIdModel> GetDetailedTaskById(int taskId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var task = await context.Tasks
+                    .Include(t => t.Project)
+                    .ThenInclude(p => p.Owner)
+                    .FirstOrDefaultAsync(t => t.TaskId == taskId);
+
+                return new DetailedTaskByIdModel
+                {
+                    TaskId = taskId,
+                    Title = task.Title,
+                    Description = task.Description,
+                    Location = task.Location,
+                    ProjectTitle = task.Project.Title,
+                    ProjectId = task.Project.ProjectId,
+                    OwnerId = task.Project.Owner.UserId,
+                    OwnerName = task.Project.Owner.FirstName + " " + task.Project.Owner.LastName
+                };
             }
         }
     }
