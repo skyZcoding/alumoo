@@ -23,6 +23,25 @@ namespace alumoo.Backend.Core.Services
             _mapper = mapper;
         }
 
+        public async Task AddImpressionToVolunteer(ImpressionToVolunteerModel impression)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var volunteer = await context.Volunteers.FindAsync(impression.VolunteerId);
+                var task = await context.Tasks.FindAsync(impression.TaskId);
+
+                var impressionEntity = new ImpressionEntity
+                {
+                    Content = impression.Content,
+                    Volunteer = volunteer,
+                    Task = task
+                };
+
+                await context.Impressions.AddAsync(impressionEntity);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task<int> AddUserToVolunteers(UserToVolunteerModel volunteer)
         {
             using (var context = await _dbContextFactory.CreateDbContextAsync())

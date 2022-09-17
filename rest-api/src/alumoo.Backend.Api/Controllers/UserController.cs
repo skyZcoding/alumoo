@@ -31,5 +31,13 @@ namespace alumoo.Backend.Api.Controllers
 
             return Ok(volunteerId);
         }
+
+        [HttpPost("addImpressionToVolunteer")]
+        public async Task<ActionResult> AddImpressionToVolunteer(ImpressionToVolunteerModel impression)
+        {
+            await _repository.AddImpressionToVolunteer(impression);
+
+            return Ok();
+        }
     }
 }

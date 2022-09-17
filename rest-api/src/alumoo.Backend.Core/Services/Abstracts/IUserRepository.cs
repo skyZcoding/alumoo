@@ -9,6 +9,7 @@ namespace alumoo.Backend.Core.Services.Abstracts
 {
     public interface IUserRepository
     {
+        Task AddImpressionToVolunteer(ImpressionToVolunteerModel impression);
         Task<int> AddUserToVolunteers(UserToVolunteerModel volunteer);
         Task<int> CreateUser(CreateUserModel user);
     }
