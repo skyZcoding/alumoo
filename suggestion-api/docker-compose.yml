@@ -31,13 +31,6 @@ services:
             dockerfile: alumoo.Backend.Api/Dockerfile
         depends_on:
             - alumoo-database
-    alumoo-ml:
-        restart: always
-        ports:
-            - 5501:5000
-        build:
-            context: ../suggestion-api
-            dockerfile: Dockerfile
 volumes:
     db:
         driver: local

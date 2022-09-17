@@ -283,3 +283,6 @@ tools
 
 .DS_Store
 /src/Fitness-app.Backend.Api/Properties/adminsdk-secret.json
+
+# Ollie sin shit
+/suggestion-api/__pycache__
