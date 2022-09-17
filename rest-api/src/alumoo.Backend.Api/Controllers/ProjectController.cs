@@ -1,4 +1,5 @@
-﻿using alumoo.Backend.Core.Services.Abstracts;
+﻿using alumoo.Backend.Core.Domain.Models.Project;
+using alumoo.Backend.Core.Services.Abstracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +16,10 @@ namespace alumoo.Backend.Api.Controllers
             _repository = repository;
         }
 
-        //[HttpGet("getStaredProjects")]
-        //public async Task<ActionResult> GetStaredProjects()
-        //{
-
-        //}
-
+        [HttpGet("getFavoritProjects")]
+        public async Task<ActionResult<List<FavoritProjectModel>>> GetFavoritProjects(int volunteerId)
+        {
+            return await _repository.GetFavoritProjects(volunteerId);
+        }
     }
 }
