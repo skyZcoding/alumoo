@@ -1,4 +1,5 @@
 ﻿using alumoo.Backend.Core.Database.Entities;
+using alumoo.Backend.Core.Domain.Models.Suggestion;
 using alumoo.Backend.Core.Domain.Models.Task;
 using AutoMapper;
 using System;
@@ -14,6 +15,8 @@ namespace alumoo.Backend.Core.Domain.Mappers
         public TaskMapper()
         {
             CreateMap<TaskEntity, TaskFromProjectModel>();
+
+            CreateMap<TaskEntity, SuggestedTaskModel>();
         }
     }
 }
