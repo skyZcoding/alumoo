@@ -71,5 +71,6 @@ namespace alumoo.Backend.Api.Controllers
         {
             return Ok(await _repository.GetFavoritTasks(volunteerId));
         }
+
     }
 }

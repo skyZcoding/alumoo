@@ -25,9 +25,17 @@ namespace alumoo.Backend.Api.Controllers
         [HttpPost("createProject")]
         public async Task<ActionResult<int>> CreateProject(CreateProjectModel project)
         {
-            int projectId = await _repository.CreateProject(project);
+            var projectId = await _repository.CreateProject(project);
 
             return Ok(projectId);
+        }
+
+        [HttpGet("getProjectById")]
+        public async Task<ActionResult<ProjectById>> GetProjectById(int projectId)
+        {
+            var project = await _repository.GetProjectById(projectId);
+
+            return Ok(project);
         }
     }
 }

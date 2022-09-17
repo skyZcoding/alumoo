@@ -15,7 +15,7 @@ builder.Services.AddEntityFrameworkNpgsql().AddDbContextFactory<ApplicationDbCon
     options.UseNpgsql(builder.Configuration.GetConnectionString("defaultConnection"));
 });
 
-builder.Services.AddSingleton<ISuggestionService, FakeSuggestionService>();
+builder.Services.AddSingleton<ISuggestionService, SuggestionService>();
 builder.Services.AddSingleton<IProjectRepository, ProjectRepository>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<ITaskRepository, TaskRepository>();

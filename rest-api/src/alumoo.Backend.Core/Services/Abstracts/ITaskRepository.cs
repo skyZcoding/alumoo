@@ -15,5 +15,6 @@ namespace alumoo.Backend.Core.Services.Abstracts
         Task<List<FavoritTaskModel>> GetFavoritTasks(int volunteerId);
         Task<List<TaskFromProjectModel>> GetTasksFromProject(int projectId);
         Task RemoveApplication(int volunteerId, int taskId);
+        Task StartTask(int volunteerId, int taskId);
     }
 }

@@ -56,5 +56,32 @@ namespace alumoo.Backend.Core.Services
                 return _mapper.Map<List<FavoritProjectModel>>(entities);
             }
         }
+
+        public async Task<ProjectById> GetProjectById(int projectId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var projectEntity = await context.Projects.FindAsync(projectId);
+                var projectModel = new ProjectById
+                {
+                    Title = projectEntity.Title,
+                    Description = projectEntity.Description,
+                    ProjectId = projectId,
+                    Tasks = new List<ProjectByIdTask>()
+                };
+
+                foreach (var task in projectEntity.Tasks)
+                {
+                    projectModel.Tasks.Add(new ProjectByIdTask
+                    {
+                        Title = task.Title,
+                        Location = task.Location,
+                        TaskId = task.TaskId
+                    });
+                }
+
+                return projectModel;
+            }
+        }
     }
 }
