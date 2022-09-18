@@ -11,6 +11,7 @@ namespace alumoo.Backend.Core.Domain.Models.Project
         public int ProjectId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public int OwnerId { get; set; }
         public List<ProjectByIdTask> Tasks { get; set; }
 
     }

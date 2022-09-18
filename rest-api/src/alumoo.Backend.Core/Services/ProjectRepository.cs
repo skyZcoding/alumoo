@@ -63,12 +63,14 @@ namespace alumoo.Backend.Core.Services
             {
                 var projectEntity = await context.Projects
                     .Include(p => p.Tasks)
+                    .Include(p => p.Owner)
                     .FirstOrDefaultAsync(p => p.ProjectId == projectId);
                 var projectModel = new ProjectById
                 {
                     Title = projectEntity.Title,
                     Description = projectEntity.Description,
                     ProjectId = projectId,
+                    OwnerId = projectEntity.Owner.UserId,
                     Tasks = new List<ProjectByIdTask>()
                 };
 
