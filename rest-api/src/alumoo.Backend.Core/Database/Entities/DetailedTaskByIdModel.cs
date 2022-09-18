@@ -12,6 +12,7 @@ namespace alumoo.Backend.Core.Database.Entities
         public string Title { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
+        public string Skills { get; set; }
         public int ProjectId { get; set; }
         public string ProjectTitle { get; set; }
         public int OwnerId { get; set; }

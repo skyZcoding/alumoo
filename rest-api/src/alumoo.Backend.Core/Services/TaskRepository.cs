@@ -185,6 +185,7 @@ namespace alumoo.Backend.Core.Services
                     Title = task.Title,
                     Description = task.Description,
                     Location = task.Location,
+                    Skills = task.Skills,
                     ProjectTitle = task.Project.Title,
                     ProjectId = task.Project.ProjectId,
                     OwnerId = task.Project.Owner.UserId,

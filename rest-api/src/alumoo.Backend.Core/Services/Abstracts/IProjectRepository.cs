@@ -12,5 +12,6 @@ namespace alumoo.Backend.Core.Services.Abstracts
         Task<int> CreateProject(CreateProjectModel project);
         Task<List<FavoritProjectModel>> GetFavoritProjects(int volunteerId);
         Task<ProjectById> GetProjectById(int projectId);
+        Task<ProjectsByOwnerIdModel> GetProjectsByOwnerId(int ownerId);
     }
 }

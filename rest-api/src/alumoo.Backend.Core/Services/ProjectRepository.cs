@@ -61,7 +61,9 @@ namespace alumoo.Backend.Core.Services
         {
             using (var context = await _dbContextFactory.CreateDbContextAsync())
             {
-                var projectEntity = await context.Projects.FindAsync(projectId);
+                var projectEntity = await context.Projects
+                    .Include(p => p.Tasks)
+                    .FirstOrDefaultAsync(p => p.ProjectId == projectId);
                 var projectModel = new ProjectById
                 {
                     Title = projectEntity.Title,
@@ -81,6 +83,34 @@ namespace alumoo.Backend.Core.Services
                 }
 
                 return projectModel;
+            }
+        }
+
+        public async Task<ProjectsByOwnerIdModel> GetProjectsByOwnerId(int ownerId)
+        {
+            using (var context = await _dbContextFactory.CreateDbContextAsync())
+            {
+                var ownerEntity = await context.Users.FindAsync(ownerId);
+                var ownerModel = new ProjectsByOwnerIdModel
+                {
+                    OwnerId = ownerId,
+                    OwnerName = ownerEntity.FirstName + " " + ownerEntity.LastName,
+                    Projects = new List<ProjectsByOwnerIdProjectModel>()
+                };
+
+                foreach (var project in await context.Projects
+                    .Where(p => p.Owner.UserId == ownerId)
+                    .ToListAsync())
+                {
+                    ownerModel.Projects.Add(new ProjectsByOwnerIdProjectModel
+                    {
+                        Title = project.Title,
+                        Description = project.Description,
+                        ProjectId = project.ProjectId
+                    });
+                }
+
+                return ownerModel;
             }
         }
     }

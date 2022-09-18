@@ -37,5 +37,11 @@ namespace alumoo.Backend.Api.Controllers
 
             return Ok(project);
         }
+
+        [HttpGet("getProjectsByOwnerId")]
+        public async Task<ActionResult<ProjectsByOwnerIdModel>> GetProjectsByOwnerId(int ownerId)
+        {
+            return Ok(await _repository.GetProjectsByOwnerId(ownerId));
+        }
     }
 }
